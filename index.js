@@ -1,17 +1,14 @@
-const express = require("express")
-const dotenv = require("dotenv")
-const router = require("./routes/taskRouter")
-
-
-
-
+const express = require('express')
 const app = express()
-dotenv.config()
 
-app.use(express.json())
 
-app.use("/tasks", router)
+app.get('/hello', (req, res) => {
+    res.json({
+        message: 'Hello World'
+    })
+})
 
-const PORT = process.env.PORT
 
-app.listen(PORT, console.log("listening to port " + PORT))
+app.listen(4000, () => {
+    console.log('Server is listening on port 4000')
+})
