@@ -2,16 +2,9 @@ const users = [
     {
         id : 1,
         username : 'Khaalid',
-        email : 'khaalid123@gmail.com',
-        address : 'Hergaysa',
-        phonenumber : '4562453'
-    },
-    {
-        id : 2,
-        username : 'Cumar',
-        email : 'cumar123@gmail.com',
-        address : 'Hergaysa',
-        phonenumber : '213456'
+        address : 'Hargeysa',
+        email : 'Khallo44@gmail.com',
+        phonenumber : '456231243456'
     }
 ]
 // getAllUsers
@@ -21,28 +14,46 @@ const getAllUsers = (req, res) => {
         users
     })
 }
+
 // getSingleUser
 const getSingleUser = (req, res) => {
     const {userId} = req.params
 
-    const user = users.find((user) => user.id === userId)
+    const user = users.find((user) => user.id === +userId)
 
-    if(!user){
+    if(!user) {
         res.status(400).json({
-            isSucces : false,
-            message : 'User not found!'
+            isSuccess : false,
+            message : "User not found!"
         })
 
         return
     }
 
     res.json({
-        isSucces : true,
-        users    
+        isSuccess : true,
+        user
     })
 }
 
+// createNewUser
+const createNewUser = (req, res) => {
+    const data = req.body
+    const id = users.length +1
+    data.id = id
+    
+    users.push(data)
+
+    res.status(201).json({
+        isSuccess : true,
+        message : "Successfully created!",
+        data
+    })
+}
+
+
 module.exports = {
     getAllUsers,
-    getSingleUser
+    getSingleUser,
+    createNewUser
 }
