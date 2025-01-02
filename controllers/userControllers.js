@@ -1,13 +1,13 @@
-const users = [
+let users = [
     {
         id : 1,
         username : 'Khaalid',
-        address : 'Hargeysa',
-        email : 'Khallo44@gmail.com',
-        phonenumber : '456231243456'
+        address : 'Burco',
+        email :'khallo@gmail.com',
+        phonenumber : '4235747'
     }
 ]
-// getAllUsers
+// Get All Users
 const getAllUsers = (req, res) => {
     res.json({
         isSuccess : true,
@@ -15,7 +15,7 @@ const getAllUsers = (req, res) => {
     })
 }
 
-// getSingleUser
+// Get Single User
 const getSingleUser = (req, res) => {
     const {userId} = req.params
 
@@ -24,7 +24,7 @@ const getSingleUser = (req, res) => {
     if(!user) {
         res.status(400).json({
             isSuccess : false,
-            message : "User not found!"
+            message : "User is not found!",
         })
 
         return
@@ -36,24 +36,68 @@ const getSingleUser = (req, res) => {
     })
 }
 
-// createNewUser
+// Create New User
 const createNewUser = (req, res) => {
-    const data = req.body
+    const data = req.body 
     const id = users.length +1
     data.id = id
-    
+
     users.push(data)
 
     res.status(201).json({
-        isSuccess : true,
-        message : "Successfully created!",
+        isSuccess : true, 
+        message : "User Successfully created!",
         data
     })
 }
+
+// Delete Users
+const deleteUser = (req, res) => {
+    const {userId} = req.params
+
+    users = users.filter(user => user.id !== +userId)
+
+    res.json({
+        isSuccess : true,
+        message : "Successfully deleted"
+    })
+}
+
+// Update User
+const updateUser = (req, res) => {
+    const { userId } = req.params; // Extract userId from params
+    const updatedData = req.body; // Extract updated data from the request body
+
+    // Find the user by ID
+    const userIndex = users.findIndex(user => user.id === +userId);
+
+    if (userIndex === -1) {
+        // If user is not found
+        res.status(404).json({
+            isSuccess: false,
+            message: "User not found!",
+        });
+        return;
+    }
+
+    // Update the user data
+    users[userIndex] = {
+        ...users[userIndex], // Keep the existing data
+        ...updatedData, // Overwrite with the updated data
+    };
+
+    res.json({
+        isSuccess: true,
+        message: "User successfully updated!",
+        updatedUser: users[userIndex],
+    });
+};
 
 
 module.exports = {
     getAllUsers,
     getSingleUser,
-    createNewUser
+    createNewUser,
+    deleteUser,
+    updateUser
 }
