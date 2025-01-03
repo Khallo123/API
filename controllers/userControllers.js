@@ -51,7 +51,7 @@ const createNewUser = (req, res) => {
     })
 }
 
-// Delete Users
+// Delete User
 const deleteUser = (req, res) => {
     const {userId} = req.params
 
@@ -63,16 +63,15 @@ const deleteUser = (req, res) => {
     })
 }
 
-// Update User
+// Upsate User
 const updateUser = (req, res) => {
-    const { userId } = req.params; // Extract userId from params
-    const updatedData = req.body; // Extract updated data from the request body
+    const { userId } = req.params; 
+    const updatedData = req.body; 
 
-    // Find the user by ID
+
     const userIndex = users.findIndex(user => user.id === +userId);
 
     if (userIndex === -1) {
-        // If user is not found
         res.status(404).json({
             isSuccess: false,
             message: "User not found!",
@@ -80,10 +79,10 @@ const updateUser = (req, res) => {
         return;
     }
 
-    // Update the user data
+  
     users[userIndex] = {
-        ...users[userIndex], // Keep the existing data
-        ...updatedData, // Overwrite with the updated data
+        ...users[userIndex],
+        ...updatedData,
     };
 
     res.json({
