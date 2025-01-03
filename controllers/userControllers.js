@@ -1,13 +1,14 @@
 let users = [
     {
-        id : 1,
-        username : 'Khaalid',
-        address : 'Burco',
-        email :'khallo@gmail.com',
-        phonenumber : '4235747'
+        id : 1, 
+        username : 'Khaalid', 
+        address : 'Hargaysa',
+        email : 'khallo@gmail.com', 
+        phonenumber : '1234567'
     }
 ]
-// Get All Users
+
+// Get All Users 
 const getAllUsers = (req, res) => {
     res.json({
         isSuccess : true,
@@ -24,10 +25,10 @@ const getSingleUser = (req, res) => {
     if(!user) {
         res.status(400).json({
             isSuccess : false,
-            message : "User is not found!",
+            message : "User not found!"
         })
 
-        return
+        return 
     }
 
     res.json({
@@ -36,7 +37,7 @@ const getSingleUser = (req, res) => {
     })
 }
 
-// Create New User
+// Create New User 
 const createNewUser = (req, res) => {
     const data = req.body 
     const id = users.length +1
@@ -45,8 +46,8 @@ const createNewUser = (req, res) => {
     users.push(data)
 
     res.status(201).json({
-        isSuccess : true, 
-        message : "User Successfully created!",
+        isSuccess : true,
+        message : "Successfully created!",
         data
     })
 }
@@ -59,39 +60,31 @@ const deleteUser = (req, res) => {
 
     res.json({
         isSuccess : true,
-        message : "Successfully deleted"
+        message : "User is Successfully deleted!"
     })
 }
 
-// Upsate User
+// Updated user 
 const updateUser = (req, res) => {
-    const { userId } = req.params; 
-    const updatedData = req.body; 
+    const {userId} = req.params
+    const userIndex = users.findIndex(user => user.id === +userId)
 
-
-    const userIndex = users.findIndex(user => user.id === +userId);
-
-    if (userIndex === -1) {
+    if(userIndex === -1) {
         res.status(404).json({
-            isSuccess: false,
-            message: "User not found!",
-        });
-        return;
+            isSuccess : false, 
+            message : "User not found!"
+        })
+
+        return
     }
 
-  
-    users[userIndex] = {
-        ...users[userIndex],
-        ...updatedData,
-    };
-
+    users[userIndex] = {...users[userIndex], ...req.body}
     res.json({
-        isSuccess: true,
-        message: "User successfully updated!",
-        updatedUser: users[userIndex],
-    });
-};
-
+        isSuccess : true,
+        message : "User is Successfully updated!",
+        user : users[userIndex]
+    })
+}
 
 module.exports = {
     getAllUsers,
