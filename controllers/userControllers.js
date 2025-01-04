@@ -19,20 +19,20 @@ const getAllUsers = (req, res) => {
 // Get Single User
 const getSingleUser = (req, res) => {
     const {userId} = req.params
-
+    
     const user = users.find((user) => user.id === +userId)
 
     if(!user) {
-        res.status(400).json({
+        res.status(404).json({
             isSuccess : false,
             message : "User not found!"
         })
 
-        return 
+        return
     }
 
     res.json({
-        isSuccess : true,
+        isSuccess : true, 
         user
     })
 }
@@ -42,13 +42,12 @@ const createNewUser = (req, res) => {
     const data = req.body 
     const id = users.length +1
     data.id = id
-
+    
     users.push(data)
 
     res.status(201).json({
         isSuccess : true,
-        message : "Successfully created!",
-        data
+        message : "Successfully created!"
     })
 }
 
@@ -56,28 +55,26 @@ const createNewUser = (req, res) => {
 const deleteUser = (req, res) => {
     const {userId} = req.params
 
-    users = users.filter(user => user.id !== +userId)
+    users = users.filter(user => user.id +userId)
 
-    res.json({
+    res.status(201).json({
         isSuccess : true,
-        message : "User is Successfully deleted!"
+        message : "Successfully deleted!"
     })
 }
-
 // Updated user 
 const updateUser = (req, res) => {
     const {userId} = req.params
     const userIndex = users.findIndex(user => user.id === +userId)
 
-    if(userIndex === -1) {
+    if(!userIndex === -1){
         res.status(404).json({
-            isSuccess : false, 
+            isSuccess : false,
             message : "User not found!"
         })
 
         return
     }
-
     users[userIndex] = {...users[userIndex], ...req.body}
     res.json({
         isSuccess : true,
@@ -85,6 +82,8 @@ const updateUser = (req, res) => {
         user : users[userIndex]
     })
 }
+
+
 
 module.exports = {
     getAllUsers,
